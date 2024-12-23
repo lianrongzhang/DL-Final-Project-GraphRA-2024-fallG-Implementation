@@ -90,5 +90,3 @@ python -m graphrag.demo --root ./ragtest
 This implementation demonstrates the potential of GraphRAG technology in enhancing the quality and accuracy of generated outputs by leveraging Knowledge Graphs and retrieval-augmented techniques. The experiment showcases the value of structured knowledge in generative AI tasks.
 
 ---
-
-For any issues or questions, please feel free to reach out via the project repository or contact the development team.
