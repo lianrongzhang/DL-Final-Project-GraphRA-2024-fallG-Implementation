@@ -26,7 +26,7 @@ conda activate GraphRAG
 #### 2. Install Required Packages
 
 ```bash
-pip install graphrag
+pip install graphrag # 0.3.5
 ollama pull llama3
 ```
 
