@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100vw;
+                 height: 100vh;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "THE OFFICE", "label": "THE OFFICE", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "SCROOGE", "label": "SCROOGE", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "MELANCHOLY TAVERN", "label": "MELANCHOLY TAVERN", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "BANKER\u0027S BOOK", "label": "BANKER\u0027S BOOK", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "CHAMBERS", "label": "CHAMBERS", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "YARD", "label": "YARD", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "SPIRIT", "label": "SPIRIT", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "JACOB MARLEY\u0027S GHOST", "label": "JACOB MARLEY\u0027S GHOST", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "CRATCHIT FAMILY", "label": "CRATCHIT FAMILY", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "FRED", "label": "FRED", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "BELINDA", "label": "BELINDA", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "JACOB", "label": "JACOB", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "STAR", "label": "STAR", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "PENANCE", "label": "PENANCE", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "LONDON", "label": "LONDON", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "GHOST", "label": "GHOST", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "CLERK", "label": "CLERK", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "YOUNG GIRL", "label": "YOUNG GIRL", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "TREE", "label": "TREE", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "FAMILY", "label": "FAMILY", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "MEN", "label": "MEN", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "BOB", "label": "BOB", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "TINY TIM", "label": "TINY TIM", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "MRS. CRATCHIT", "label": "MRS. CRATCHIT", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "CHRISTMAS DAY", "label": "CHRISTMAS DAY", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "MARLEY\u0027S GHOST", "label": "MARLEY\u0027S GHOST", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "JACOB MARLEY", "label": "JACOB MARLEY", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "TOPPER", "label": "TOPPER", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "SCROOGE\u0027S NIECE", "label": "SCROOGE\u0027S NIECE", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "CHRISTMAS PAST", "label": "CHRISTMAS PAST", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "MARLEY", "label": "MARLEY", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "SPIRIT OF CHRISTMAS PRESENT", "label": "SPIRIT OF CHRISTMAS PRESENT", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "SPIRIT OF CHRISTMAS PAST", "label": "SPIRIT OF CHRISTMAS PAST", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "SPIRIT OF CHRISTMAS YET TO COME", "label": "SPIRIT OF CHRISTMAS YET TO COME", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "GHOST OF CHRISTMAS PAST", "label": "GHOST OF CHRISTMAS PAST", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "GHOST OF CHRISTMAS PRESENT", "label": "GHOST OF CHRISTMAS PRESENT", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "CRATCHIT FAMILY HOME", "label": "CRATCHIT FAMILY HOME", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "BOB CRATCHIT", "label": "BOB CRATCHIT", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "CHRISTMAS", "label": "CHRISTMAS", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "GHOST OF CHRISTMAS YESTERYEAR", "label": "GHOST OF CHRISTMAS YESTERYEAR", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "SPIRITS", "label": "SPIRITS", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "CHARLES DICKENS", "label": "CHARLES DICKENS", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "TIM", "label": "TIM", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "EBENEZER SCROOGE", "label": "EBENEZER SCROOGE", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "MARATHA", "label": "MARATHA", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "CRATCHITS", "label": "CRATCHITS", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "MARTHA", "label": "MARTHA", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "LAURIE", "label": "LAURIE", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "SMOKING BISHOP", "label": "SMOKING BISHOP", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "CAROL", "label": "CAROL", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "NOEL", "label": "NOEL", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "PAST", "label": "PAST", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "PRESSENT", "label": "PRESSENT", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "FUTURE", "label": "FUTURE", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "BEDPOST", "label": "BEDPOST", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "PROJECT GUTENBERG", "label": "PROJECT GUTENBERG", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION", "label": "PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "PARAGRAPH 1.F.3", "label": "PARAGRAPH 1.F.3", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "ELECTRONIC WORKS", "label": "ELECTRONIC WORKS", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "CREATED BY", "label": "CREATED BY", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "MICHAEL HART", "label": "MICHAEL HART", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "EBOOKS", "label": "EBOOKS", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "SECTION 3", "label": "SECTION 3", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "FOUNDATION", "label": "FOUNDATION", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "EVENT", "label": "EVENT", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "DIGITAL LIBRARY", "label": "DIGITAL LIBRARY", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "FREE", "label": "FREE", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "CONTACT INFORMATION", "label": "CONTACT INFORMATION", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "PERSON", "label": "PERSON", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "ENTITY", "label": "ENTITY", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "STATE", "label": "STATE", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "COMPANY", "label": "COMPANY", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "PRODUCT", "label": "PRODUCT", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "SERVICE", "label": "SERVICE", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "WORK", "label": "WORK", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "MISSISSIPPI", "label": "MISSISSIPPI", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "ORGANIZED UNDER", "label": "ORGANIZED UNDER", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "INTERNAL REVENUE SERVICE", "label": "INTERNAL REVENUE SERVICE", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "GRANTED TAX EXEMPT STATUS BY", "label": "GRANTED TAX EXEMPT STATUS BY", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "U.S.", "label": "U.S.", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "LOCATED IN", "label": "LOCATED IN", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "UTAH", "label": "UTAH", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "SALT LAKE CITY", "label": "SALT LAKE CITY", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "LOCATED AT", "label": "LOCATED AT", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "WWW.GUTENBERG.ORG", "label": "WWW.GUTENBERG.ORG", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "HOSTED AT", "label": "HOSTED AT", "shape": "dot", "size": 10}]);
+                  edges = new vis.DataSet([{"from": "THE OFFICE", "relationship": null, "to": "SCROOGE", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "MELANCHOLY TAVERN", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "BANKER\u0027S BOOK", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "CHAMBERS", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "YARD", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "SPIRIT", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "JACOB MARLEY\u0027S GHOST", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "CRATCHIT FAMILY", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "FRED", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "BELINDA", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "JACOB", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "STAR", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "PENANCE", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "LONDON", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "GHOST", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "CLERK", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "YOUNG GIRL", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "TREE", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "FAMILY", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "MEN", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "BOB", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "TINY TIM", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "MRS. CRATCHIT", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "CHRISTMAS DAY", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "MARLEY\u0027S GHOST", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "JACOB MARLEY", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "TOPPER", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "SCROOGE\u0027S NIECE", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "CHRISTMAS PAST", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "MARLEY", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "SPIRIT OF CHRISTMAS PRESENT", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "SPIRIT OF CHRISTMAS PAST", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "SPIRIT OF CHRISTMAS YET TO COME", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "GHOST OF CHRISTMAS PAST", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "GHOST OF CHRISTMAS PRESENT", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "CRATCHIT FAMILY HOME", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "BOB CRATCHIT", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "CHRISTMAS", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "GHOST OF CHRISTMAS YESTERYEAR", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "SPIRITS", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "CHARLES DICKENS", "width": 1}, {"from": "SCROOGE", "relationship": null, "to": "TIM", "width": 1}, {"from": "SPIRIT", "relationship": null, "to": "GHOST", "width": 1}, {"from": "SPIRIT", "relationship": null, "to": "EBENEZER SCROOGE", "width": 1}, {"from": "JACOB MARLEY\u0027S GHOST", "relationship": null, "to": "EBENEZER SCROOGE", "width": 1}, {"from": "FRED", "relationship": null, "to": "EBENEZER SCROOGE", "width": 1}, {"from": "JACOB", "relationship": null, "to": "PENANCE", "width": 1}, {"from": "BOB", "relationship": null, "to": "TINY TIM", "width": 1}, {"from": "BOB", "relationship": null, "to": "CHRISTMAS DAY", "width": 1}, {"from": "BOB", "relationship": null, "to": "MRS. CRATCHIT", "width": 1}, {"from": "BOB", "relationship": null, "to": "MARATHA", "width": 1}, {"from": "TINY TIM", "relationship": null, "to": "BOB CRATCHIT", "width": 1}, {"from": "TINY TIM", "relationship": null, "to": "CRATCHITS", "width": 1}, {"from": "TINY TIM", "relationship": null, "to": "CHRISTMAS DAY", "width": 1}, {"from": "MRS. CRATCHIT", "relationship": null, "to": "BOB CRATCHIT", "width": 1}, {"from": "CHRISTMAS DAY", "relationship": null, "to": "BOB CRATCHIT", "width": 1}, {"from": "CHRISTMAS DAY", "relationship": null, "to": "MARATHA", "width": 1}, {"from": "JACOB MARLEY", "relationship": null, "to": "EBENEZER SCROOGE", "width": 1}, {"from": "MARLEY", "relationship": null, "to": "BOB CRATCHIT", "width": 1}, {"from": "SPIRIT OF CHRISTMAS PRESENT", "relationship": null, "to": "EBENEZER SCROOGE", "width": 1}, {"from": "GHOST OF CHRISTMAS PAST", "relationship": null, "to": "EBENEZER SCROOGE", "width": 1}, {"from": "BOB CRATCHIT", "relationship": null, "to": "MARTHA", "width": 1}, {"from": "BOB CRATCHIT", "relationship": null, "to": "LAURIE", "width": 1}, {"from": "BOB CRATCHIT", "relationship": null, "to": "EBENEZER SCROOGE", "width": 1}, {"from": "BOB CRATCHIT", "relationship": null, "to": "SMOKING BISHOP", "width": 1}, {"from": "BOB CRATCHIT", "relationship": null, "to": "CHRISTMAS", "width": 1}, {"from": "CHRISTMAS", "relationship": null, "to": "EBENEZER SCROOGE", "width": 1}, {"from": "CHRISTMAS", "relationship": null, "to": "CAROL", "width": 1}, {"from": "CHRISTMAS", "relationship": null, "to": "NOEL", "width": 1}, {"from": "EBENEZER SCROOGE", "relationship": null, "to": "PAST", "width": 1}, {"from": "EBENEZER SCROOGE", "relationship": null, "to": "PRESSENT", "width": 1}, {"from": "EBENEZER SCROOGE", "relationship": null, "to": "FUTURE", "width": 1}, {"from": "EBENEZER SCROOGE", "relationship": null, "to": "BEDPOST", "width": 1}, {"from": "PROJECT GUTENBERG", "relationship": null, "to": "PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION", "width": 1}, {"from": "PROJECT GUTENBERG", "relationship": null, "to": "PARAGRAPH 1.F.3", "width": 1}, {"from": "PROJECT GUTENBERG", "relationship": null, "to": "ELECTRONIC WORKS", "width": 1}, {"from": "PROJECT GUTENBERG", "relationship": null, "to": "CREATED BY", "width": 1}, {"from": "PROJECT GUTENBERG", "relationship": null, "to": "MICHAEL HART", "width": 1}, {"from": "PROJECT GUTENBERG", "relationship": null, "to": "EBOOKS", "width": 1}, {"from": "PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION", "relationship": null, "to": "SECTION 3", "width": 1}, {"from": "PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION", "relationship": null, "to": "FOUNDATION", "width": 1}, {"from": "PARAGRAPH 1.F.3", "relationship": null, "to": "EVENT", "width": 1}, {"from": "MICHAEL HART", "relationship": null, "to": "DIGITAL LIBRARY", "width": 1}, {"from": "EBOOKS", "relationship": null, "to": "FREE", "width": 1}, {"from": "SECTION 3", "relationship": null, "to": "CONTACT INFORMATION", "width": 1}, {"from": "PERSON", "relationship": null, "to": "ENTITY", "width": 1}, {"from": "PERSON", "relationship": null, "to": "STATE", "width": 1}, {"from": "PERSON", "relationship": null, "to": "COMPANY", "width": 1}, {"from": "PERSON", "relationship": null, "to": "PRODUCT", "width": 1}, {"from": "PERSON", "relationship": null, "to": "SERVICE", "width": 1}, {"from": "ENTITY", "relationship": null, "to": "STATE", "width": 1}, {"from": "STATE", "relationship": null, "to": "WORK", "width": 1}, {"from": "MISSISSIPPI", "relationship": null, "to": "ORGANIZED UNDER", "width": 1}, {"from": "INTERNAL REVENUE SERVICE", "relationship": null, "to": "GRANTED TAX EXEMPT STATUS BY", "width": 1}, {"from": "U.S.", "relationship": null, "to": "LOCATED IN", "width": 1}, {"from": "LOCATED IN", "relationship": null, "to": "UTAH", "width": 1}, {"from": "SALT LAKE CITY", "relationship": null, "to": "LOCATED AT", "width": 1}, {"from": "WWW.GUTENBERG.ORG", "relationship": null, "to": "HOSTED AT", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
